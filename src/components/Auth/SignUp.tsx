@@ -1,5 +1,5 @@
 import { useSupabase } from "../../hooks/supabase"
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import {
   Container,
   Typography,
@@ -16,7 +16,6 @@ import { Close, VisibilityOff, Visibility } from "@mui/icons-material"
 import { useToggle } from "usehooks-ts"
 import { useRouter } from "@tanstack/react-router"
 import { useMutation } from "@tanstack/react-query"
-import { useComputed } from "../../hooks"
 
 export function SignUp() {
   const { client } = useSupabase()
@@ -30,7 +29,9 @@ export function SignUp() {
   const [showConfirmPassword, toggleShowConfirmPassword] = useToggle()
 
   const [isAllValid, validEmail, validPassword, validConfirmation] =
-    useComputed(() => {
+    useMemo(() => {
+      console.log("render")
+
       const validations = [
         !!email.match(/^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/),
         password?.length >= 8,

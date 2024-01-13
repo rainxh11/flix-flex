@@ -1,10 +1,11 @@
-import React, { StrictMode } from "react"
+import React, { StrictMode, Profiler } from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider, Router } from "@tanstack/react-router"
 import { routeTree } from "./Routes"
 import { SupabaseProvider } from "./contexts/supabase"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { createClient } from "@supabase/supabase-js"
+import { TmdbProvider, tmdbClient } from "./contexts/tmdb"
 
 import "@fontsource/work-sans/300.css"
 import "@fontsource/work-sans/400.css"
@@ -28,10 +29,14 @@ const rootElement = document.getElementById("root")!
 const root = ReactDOM.createRoot(rootElement)
 root.render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <SupabaseProvider value={supabaseClient}>
-        <RouterProvider router={router} />
-      </SupabaseProvider>
-    </QueryClientProvider>
+    {/* <Profiler id="App" onRender={v => console.log(v)}> */}
+    <SupabaseProvider value={supabaseClient}>
+      <QueryClientProvider client={queryClient}>
+        <TmdbProvider value={tmdbClient}>
+          <RouterProvider router={router} />
+        </TmdbProvider>
+      </QueryClientProvider>
+    </SupabaseProvider>
+    {/* </Profiler> */}
   </StrictMode>,
 )

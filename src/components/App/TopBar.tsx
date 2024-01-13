@@ -11,12 +11,15 @@ import {
 import { LoadingButton } from "@mui/lab"
 
 import { Logout, Person } from "@mui/icons-material"
-import { useSupabase } from "../../hooks/supabase"
 import { useRouter } from "@tanstack/react-router"
 import { useMutation } from "@tanstack/react-query"
+import { SupabseChildrenProps, Supabase } from "../Auth/Supabase"
 
-function LoggedAccount() {
-  const { isAuthenticated, session, client } = useSupabase()
+function LoggedAccount({
+  isAuthenticated,
+  session,
+  client,
+}: SupabseChildrenProps) {
   const router = useRouter()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -83,7 +86,6 @@ function LoggedAccount() {
 
 export default function TopBar() {
   const router = useRouter()
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -95,7 +97,7 @@ export default function TopBar() {
             onClick={() => router.navigate({ to: "/" })}>
             FLEX FLIX
           </Typography>
-          <LoggedAccount />
+          <Supabase>{value => <LoggedAccount {...value} />}</Supabase>
         </Toolbar>
       </AppBar>
     </Box>

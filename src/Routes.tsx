@@ -4,6 +4,7 @@ import theme from "./theme"
 import { Outlet, Route, RootRoute } from "@tanstack/react-router"
 //import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { SignUp, SignIn } from "./components/Auth"
+import { App } from "./components/App/App"
 import { signInSearchSchema } from "./types/route-validation"
 import TopBar from "./components/App/TopBar"
 
@@ -24,13 +25,7 @@ const rootRoute = new RootRoute({
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: function Index() {
-    return (
-      <div className="p-2">
-        <h3>Welcome Home!</h3>
-      </div>
-    )
-  },
+  component: () => <App />,
 })
 const signInRoute = new Route({
   getParentRoute: () => rootRoute,

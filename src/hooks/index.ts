@@ -4,6 +4,8 @@ import {
   useState,
   type DependencyList,
   useEffect,
+  useRef,
+  MutableRefObject,
 } from "react"
 import { useDebounce } from "usehooks-ts"
 import { useCallback } from "react"
@@ -90,4 +92,21 @@ export function useStateDebounced<T>(
   const debounced = useDebounce(state, delay)
 
   return [debounced, state, setState]
+}
+
+export function useToggleRefState<T>(
+  initialValue?: T,
+): [
+  state: T | undefined,
+  toggle: () => void,
+  ref: MutableRefObject<T | undefined>,
+] {
+  const internalRef = useRef<T | undefined>(initialValue ?? undefined)
+  const [refState, setRefState] = useState<T | undefined>()
+
+  return [
+    refState,
+    () => setRefState(v => (!v ? internalRef.current : undefined)),
+    internalRef,
+  ]
 }

@@ -5,8 +5,10 @@ import { Outlet, Route, RootRoute } from "@tanstack/react-router"
 //import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { SignUp, SignIn } from "./components/Auth"
 import { PopularMovies } from "./components/Movie/PopularMovies"
+import { PopularTvSeries } from "./components/TV/PopularTvSeries"
 import { signInSearchSchema } from "./types/route-validation"
 import TopBar from "./components/App/TopBar"
+import { FavoritesList } from "./components/Favorites/FavoritesList"
 
 const rootRoute = new RootRoute({
   component: () => (
@@ -28,6 +30,18 @@ const moviesRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/movies",
   component: () => <PopularMovies />,
+})
+
+const tvRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/tv",
+  component: () => <PopularTvSeries />,
+})
+
+const favRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/favorites",
+  component: () => <FavoritesList />,
 })
 
 const indexRoute = new Route({
@@ -52,6 +66,8 @@ const signUpRoute = new Route({
 export const routeTree = rootRoute.addChildren([
   indexRoute,
   moviesRoute,
+  tvRoute,
+  favRoute,
   signInRoute,
   signUpRoute,
 ])

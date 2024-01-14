@@ -41,7 +41,7 @@ export function DebouncedSearchBox({
               setSearchInput("")
               onChange("")
             }}>
-            <Clear />
+            {searchInput.length > 0 && <Clear />}
           </IconButton>
         ),
       }}

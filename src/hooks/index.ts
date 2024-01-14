@@ -6,11 +6,13 @@ import {
   useEffect,
   useRef,
   MutableRefObject,
+  useMemo,
 } from "react"
-import { useDebounce } from "usehooks-ts"
+import { useDebounce, useInterval } from "usehooks-ts"
 import { useCallback } from "react"
-import { debounce } from "lodash"
+import { debounce, random } from "lodash"
 import { DebouncedFunc } from "lodash"
+import { sha1 } from "object-hash"
 
 export function useAsyncMemo<T>(
   factory: () => Promise<T> | undefined | null,
@@ -109,4 +111,52 @@ export function useToggleRefState<T>(
     () => setRefState(v => (!v ? internalRef.current : undefined)),
     internalRef,
   ]
+}
+
+export function useRandomKey(): [key: Readonly<string>, randomize: () => void] {
+  const [state, setState] = useState<string>((Math.random() * 1000).toString())
+  return [
+    state,
+    () => {
+      setState((Math.random() * 1000).toString())
+    },
+  ]
+}
+
+export const useComputed = <T>(
+  getter: (previousState?: T) => T,
+  deps: DependencyList,
+): T => {
+  const [state, setState] = useState<T>(getter())
+  const hash = useMemo(() => sha1({ deps: deps }), [deps])
+  useEffect(() => {
+    setState(v => getter(v))
+  }, [hash])
+
+  return state
+}
+
+export const useIntervalComputed = <T>(
+  getter: (previousState?: T) => T,
+  deps: DependencyList,
+  updateInterval?: number,
+): T => {
+  const [internalState, setState] = useState<T>(getter())
+  const [cachedState, setCachedState] = useState<T>(internalState)
+  const [triggerState, setTriggerState] = useState<number>(0)
+
+  useEffect(() => {
+    setState(v => {
+      const currentHash = sha1({ value: v })
+      const newValue = getter(v)
+      const newHash = sha1({ value: newValue })
+      if (currentHash === newHash) {
+        setCachedState(newValue)
+      }
+      return newValue
+    })
+  }, [...deps, triggerState])
+  useInterval(() => setTriggerState(random(true)), updateInterval || 1000)
+
+  return cachedState
 }

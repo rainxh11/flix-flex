@@ -6,12 +6,10 @@ import {
   Button,
   Menu,
   MenuItem,
-  Divider,
 } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
-import { Link } from "@tanstack/react-router"
 
-import { Logout, Person } from "@mui/icons-material"
+import { Logout, Person, Star } from "@mui/icons-material"
 import { useRouter } from "@tanstack/react-router"
 import { useMutation } from "@tanstack/react-query"
 import { SupabseChildrenProps, Supabase } from "../Auth/Supabase"
@@ -89,26 +87,25 @@ export default function TopBar() {
           <Supabase>{value => <LoggedAccount {...value} />}</Supabase>
         </Box>
         <Box flexGrow={1}>
-          <DropdownMenu>
-            {({ isOpen, anchorRef, toggleMenu, anchorEl }) => (
-              <>
-                <Button
-                  sx={{ color: "white" }}
-                  ref={anchorRef}
-                  onClick={toggleMenu}>
-                  <Typography variant="h6">Movies</Typography>
-                </Button>
-                <Menu anchorEl={anchorEl} open={isOpen} onClose={toggleMenu}>
-                  <MenuItem onClick={() => router.navigate({ to: "/movies" })}>
-                    Popular
-                  </MenuItem>
-                  <MenuItem onClick={() => router.navigate({ to: "/movies" })}>
-                    Trailers
-                  </MenuItem>{" "}
-                </Menu>
-              </>
-            )}
-          </DropdownMenu>
+          <Button
+            sx={{ color: "white" }}
+            onClick={() => router.navigate({ to: "/movies" })}>
+            <Typography variant="h6">Movies</Typography>
+          </Button>
+          <Button
+            sx={{ color: "white" }}
+            onClick={() => router.navigate({ to: "/tv" })}>
+            <Typography variant="h6">TV Series</Typography>
+          </Button>
+          <Button
+            sx={{
+              color: "white",
+              columnGap: "5px",
+            }}
+            onClick={() => router.navigate({ to: "/favorites" })}>
+            <Star />
+            <Typography variant="h6">My Favorites</Typography>
+          </Button>
         </Box>
         <Typography
           variant="h4"

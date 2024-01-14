@@ -1,4 +1,4 @@
-import React, { StrictMode, Profiler } from "react"
+import React, { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider, Router } from "@tanstack/react-router"
 import { routeTree } from "./Routes"
@@ -6,6 +6,7 @@ import { SupabaseProvider } from "./contexts/supabase"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { createClient } from "@supabase/supabase-js"
 import { TmdbProvider, tmdbClient } from "./contexts/tmdb"
+import { Provider as JotaiProvider } from "jotai"
 
 import "@fontsource/work-sans/300.css"
 import "@fontsource/work-sans/400.css"
@@ -33,7 +34,9 @@ root.render(
     <SupabaseProvider value={supabaseClient}>
       <QueryClientProvider client={queryClient}>
         <TmdbProvider value={tmdbClient}>
-          <RouterProvider router={router} />
+          <JotaiProvider>
+            <RouterProvider router={router} />
+          </JotaiProvider>
         </TmdbProvider>
       </QueryClientProvider>
     </SupabaseProvider>

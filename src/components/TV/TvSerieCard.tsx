@@ -1,4 +1,4 @@
-import { Movie } from "tmdb-ts-benlei-fork"
+import { TV } from "tmdb-ts-benlei-fork"
 import { parse, format } from "date-fns"
 import {
   Card,
@@ -11,30 +11,29 @@ import {
 import { CircularProgressWithLabel } from "../Shared/CircularProgressWithLabel"
 import { useTmdb } from "../../hooks/tmdb"
 import { useMemo } from "react"
-import { useFavStore } from "../../contexts/favorites"
 import { FavButton } from "../Shared/FavButton"
+import { useFavStore } from "../../contexts/favorites"
 import { useComputed } from "../../hooks"
 
-export function MovieCard({ value }: { value: Movie }) {
+export function TvSerieCard({ value }: { value: TV }) {
   const initialComponentKey = Math.random()
-  const { addOrRemoveFromFavorites, isInFavorites, lastChangeId } =
-    useFavStore<Movie>()
-  const isFavorite = useComputed(
-    () => isInFavorites(value.id, "movie"),
-    [lastChangeId, initialComponentKey],
-  )
+
   const { getImageUrl } = useTmdb()
-  const releaseDate = useMemo(() => {
+  const { addOrRemoveFromFavorites, isInFavorites, lastChangeId } =
+    useFavStore<TV>()
+  const isFavorite = useComputed(() => {
+    return isInFavorites(value.id, "tv")
+  }, [lastChangeId, initialComponentKey])
+  const firstAirDate = useMemo(() => {
     try {
       return format(
-        parse(value.release_date, "yyyy-MM-dd", new Date()),
+        parse(value.first_air_date, "yyyy-MM-dd", new Date()),
         "MMM d, yyyy",
       )
     } catch {
       return "N/A"
     }
   }, [])
-
   return (
     <Card
       sx={{
@@ -49,7 +48,7 @@ export function MovieCard({ value }: { value: Movie }) {
           component="img"
           width="100"
           image={getImageUrl(value.poster_path, 200)}
-          alt={value.title}
+          alt={value.name}
         />
       </CardActionArea>
       <Stack
@@ -75,17 +74,16 @@ export function MovieCard({ value }: { value: Movie }) {
             gutterBottom
             variant="body1"
             component="div">
-            {value.title}
+            {value.name}
           </Typography>
           <FavButton
             size="large"
             value={isFavorite}
             defaultValue={isFavorite}
-            onChange={v =>
-              addOrRemoveFromFavorites(value.id, "movie", value, v)
-            }
+            onChange={v => addOrRemoveFromFavorites(value.id, "tv", value, v)}
           />
         </Box>
+
         <Box
           width="-webkit-fill-available"
           display="flex"
@@ -110,7 +108,7 @@ export function MovieCard({ value }: { value: Movie }) {
             gutterBottom
             variant="subtitle1"
             component="div">
-            {releaseDate}
+            {firstAirDate}
           </Typography>
         </Box>
       </Stack>

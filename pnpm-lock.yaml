@@ -47,6 +47,9 @@ dependencies:
   date-fns:
     specifier: ^3.2.0
     version: 3.2.0
+  format-money-js:
+    specifier: ^1.6.3
+    version: 1.6.3
   humanize-duration:
     specifier: ^3.31.0
     version: 3.31.0
@@ -1865,6 +1868,10 @@ packages:
   /flatted@3.2.9:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
     dev: true
+
+  /format-money-js@1.6.3:
+    resolution: {integrity: sha512-neeYRPJ5zeepUooQaYmQQLmISmA4d8SbhyMGbr+dCXoQG0eVDYItWMK8HcMbBJTAn15l5Xf76pqJGoAtu+e8Vg==}
+    dev: false
 
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}

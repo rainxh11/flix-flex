@@ -25,7 +25,7 @@ export function CastCard({ cast }: { cast: Cast }) {
           {cast.original_name}
         </Typography>
         <Typography fontWeight="200" variant="subtitle1">
-          {cast.name}
+          {cast.character}
         </Typography>
       </CardContent>
     </Card>
@@ -34,7 +34,7 @@ export function CastCard({ cast }: { cast: Cast }) {
 
 export function CastCardList({ castList }: { castList?: Cast[] }) {
   return (
-    <Container
+    <Box
       sx={{
         position: "relative",
       }}>
@@ -51,6 +51,6 @@ export function CastCardList({ castList }: { castList?: Cast[] }) {
           ))}
         </Stack>
       </Box>
-    </Container>
+    </Box>
   )
 }

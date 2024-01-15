@@ -10,7 +10,7 @@ import {
 } from "react"
 import { useDebounce, useInterval } from "usehooks-ts"
 import { useCallback } from "react"
-import { debounce, random } from "lodash"
+import { debounce, shuffle, random } from "lodash"
 import { DebouncedFunc } from "lodash"
 import { sha1 } from "object-hash"
 
@@ -162,14 +162,10 @@ export const useIntervalComputed = <T>(
 }
 
 export const useRotatedList = <T>(items: T[], rotationDelayMs: number) => {
-  const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const currentItem = useComputed(() => items[currentIndex], [currentIndex])
+  const [currentItem, setCurrentItem] = useState<T | undefined>(items[0])
   useInterval(() => {
-    const index = currentIndex == items.length - 1 ? 0 : currentIndex + 1
-    setCurrentIndex(index)
+    setCurrentItem(shuffle(items)[0])
   }, rotationDelayMs)
-  useEffect(() => {
-    setCurrentIndex(0)
-  }, [items])
+
   return currentItem
 }

@@ -12,6 +12,7 @@ import {
   Stack,
   Grid,
   Typography,
+  Container,
 } from "@mui/material"
 import { Circle } from "@mui/icons-material"
 import { useTmdb } from "../../hooks/tmdb"
@@ -40,7 +41,7 @@ export function MovieDetails() {
   const styles = {
     backgroundOverlayColor: {
       backgroundImage:
-        "linear-gradient(to right, rgba(31.5, 10.5, 31.5, 1) calc((50vw - 170px) - 340px), rgba(31.5, 10.5, 31.5, 0.84) 50%, rgba(31.5, 10.5, 31.5, 0.84) 100%);",
+        "linear-gradient(to right, rgba(37, 56, 111,0.92) calc((50vw - 170px) - 340px), rgba(91.5, 90.5, 31.5,0.8) 50%, rgba(49, 22, 93,0.5) 100%);",
     },
   }
   const releaseDate = useComputed(() => {
@@ -66,6 +67,7 @@ export function MovieDetails() {
             backgroundImage: `url(${getImageUrl(backdrop?.file_path)})`,
             borderBottom: "1px solid var(--primaryColor)",
             backgroundSize: "cover",
+            top: "-100px",
             backgroundRepeat: "no-repeat",
             minHeight: "300px",
             width: "100%",
@@ -141,7 +143,6 @@ export function MovieDetails() {
                   </Stack>
 
                   <Box>
-                    {" "}
                     <Typography fontWeight="500" variant="h5">
                       Overview
                     </Typography>
@@ -157,10 +158,16 @@ export function MovieDetails() {
         {/*  */}
         <Grid container spacing={2} marginTop={2}>
           <Grid item xs={12} md={9}>
-            <CastCardList castList={credits.data?.cast} />
+            <Container>
+              <Typography marginLeft={2} variant="h4" fontWeight={600}>
+                Cast
+              </Typography>
+              <CastCardList castList={credits.data?.cast} />
+            </Container>
           </Grid>
           <Grid item xs={12} md={3}></Grid>
         </Grid>
+
         {/*  */}
       </SpinnerWrapper>
     </>

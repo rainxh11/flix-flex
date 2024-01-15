@@ -5,7 +5,6 @@ import {
   Typography,
   Box,
   TextField,
-  Button,
   IconButton,
   Divider,
   Link,
@@ -144,7 +143,7 @@ export function SignIn() {
                 loading={isPending}
                 disabled={!isAllValid}
                 variant="contained"
-                onClick={handleLogin}>
+                onClick={() => handleLogin()}>
                 <Typography variant="h6">Login</Typography>
               </LoadingButton>
               {!!loginError && (

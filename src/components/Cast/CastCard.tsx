@@ -6,7 +6,6 @@ import {
   Typography,
   Box,
   Stack,
-  Container,
 } from "@mui/material"
 import { useTmdb } from "../../hooks/tmdb"
 

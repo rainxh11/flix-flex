@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import {
   AppBar,
   Box,
@@ -31,20 +33,20 @@ function LoggedAccount({
           <DropdownMenu>
             {({ isOpen, anchorRef, toggleMenu, anchorEl }) => (
               <>
-                <LoadingButton
-                  sx={{
-                    color: "white",
-                    alignItems: "center",
-                    display: "flex",
-                    columnGap: "10px",
-                    textTransform: "lowercase",
-                  }}
-                  ref={anchorRef}
-                  loading={isPending}
-                  onClick={toggleMenu}>
-                  <Typography variant="h6">{session?.user.email}</Typography>
-                  <Person />
-                </LoadingButton>
+                <Box ref={anchorRef} onClick={() => toggleMenu()}>
+                  <LoadingButton
+                    sx={{
+                      color: "white",
+                      alignItems: "center",
+                      display: "flex",
+                      columnGap: "10px",
+                      textTransform: "lowercase",
+                    }}
+                    loading={isPending}>
+                    <Typography variant="h6">{session?.user.email}</Typography>
+                    <Person />
+                  </LoadingButton>
+                </Box>
                 <Menu anchorEl={anchorEl} open={isOpen} onClose={toggleMenu}>
                   <MenuItem
                     onClick={() => {

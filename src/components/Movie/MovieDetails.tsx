@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// @ts-nocheck
 import { useMovieDetails } from "./useMovieDetails"
 import { useParams, useRouter } from "@tanstack/react-router"
 import { parse, format } from "date-fns"

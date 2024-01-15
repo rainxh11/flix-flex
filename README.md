@@ -1,30 +1,33 @@
-# React + TypeScript + Vite
+# Test Fullstack Movies
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Context :
 
-Currently, two official plugins are available:
+Creation of a web application: Movie app FlixFlex.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# User stories :
 
-## Expanding the ESLint configuration
+- As a user, I should be able to create an account with a username and a
+  password
+- As a user, I should be able to view the list of movies and series on different
+  pages
+- As a user, I should be able to consult, in the movies and series pages, all the
+  movies/series available in batches of 10
+- As a user, I should be able to add a movie or a series to my favorites list
+- As a user, I should be able to delete a movie or a series from my favorites list
+- As a user, I should be able to view the list of my favorite movies and series
+- As a user, I should be able to search for movies and series
+- As a user, I should be able to view the details of a movie or a series
+- As a user, I should be able to watch the trailer of a movie or a series
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+# My Submission:
 
-- Configure the top-level `parserOptions` property like this:
+- Tech Stack Used:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+1. React.js 18 for the Frontend
+2. MUI library for UI
+3. Supabase for Authentication Backend
+4. Jotai for State Management (for storing favorites at application level)
+5. TMDB for Movies & Series Database API
+6. Vercel for hosting a live demo
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## [Live Demo URL](https://flix-flex-ahmed-chakhoum.vercel.app)

@@ -5,7 +5,6 @@ import {
   Typography,
   Box,
   TextField,
-  Button,
   IconButton,
   Divider,
   Link,
@@ -159,14 +158,16 @@ export function SignUp() {
                 flexDirection: "row-reverse",
                 justifyContent: "space-between",
               }}>
-              <LoadingButton
-                loading={isPending}
-                disabled={!isAllValid}
-                variant="contained"
-                color="success"
-                onClick={handleRegister}>
-                <Typography variant="h6">Register</Typography>
-              </LoadingButton>
+              <Box onClick={() => handleRegister()}>
+                <LoadingButton
+                  loading={isPending}
+                  disabled={!isAllValid}
+                  variant="contained"
+                  color="success">
+                  <Typography variant="h6">Register</Typography>
+                </LoadingButton>
+              </Box>
+
               {!!signupError && (
                 <Alert severity="error">{signupError.message}</Alert>
               )}

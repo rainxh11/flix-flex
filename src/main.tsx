@@ -1,4 +1,3 @@
-import React, { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider, Router } from "@tanstack/react-router"
 import { routeTree } from "./Routes"
@@ -29,17 +28,13 @@ const queryClient = new QueryClient()
 const rootElement = document.getElementById("root")!
 const root = ReactDOM.createRoot(rootElement)
 root.render(
-  <StrictMode>
-    {/* <Profiler id="App" onRender={v => console.log(v)}> */}
-    <SupabaseProvider value={supabaseClient}>
-      <QueryClientProvider client={queryClient}>
-        <TmdbProvider value={tmdbClient}>
-          <JotaiProvider>
-            <RouterProvider router={router} />
-          </JotaiProvider>
-        </TmdbProvider>
-      </QueryClientProvider>
-    </SupabaseProvider>
-    {/* </Profiler> */}
-  </StrictMode>,
+  <SupabaseProvider value={supabaseClient}>
+    <QueryClientProvider client={queryClient}>
+      <TmdbProvider value={tmdbClient}>
+        <JotaiProvider>
+          <RouterProvider router={router} />
+        </JotaiProvider>
+      </TmdbProvider>
+    </QueryClientProvider>
+  </SupabaseProvider>,
 )

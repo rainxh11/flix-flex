@@ -1,6 +1,6 @@
 import { useTmdb } from "../../hooks/tmdb"
 import { useQuery } from "@tanstack/react-query"
-import { CircularProgress, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import { ContentSearch } from "../Shared/ContentSearch"
 import { useEffect, useMemo, useState } from "react"
 import { MovieList } from "./MovieList"

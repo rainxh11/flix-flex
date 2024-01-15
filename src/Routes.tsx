@@ -5,6 +5,7 @@ import { Outlet, Route, RootRoute } from "@tanstack/react-router"
 //import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { SignUp, SignIn } from "./components/Auth"
 import { PopularMovies } from "./components/Movie/PopularMovies"
+import { MovieDetails } from "./components/Movie/MovieDetails"
 import { PopularTvSeries } from "./components/TV/PopularTvSeries"
 import { signInSearchSchema } from "./types/route-validation"
 import TopBar from "./components/App/TopBar"
@@ -16,11 +17,7 @@ const rootRoute = new RootRoute({
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <TopBar />
-        <Container>
-          <Box margin="10px">
-            <Outlet />
-          </Box>
-        </Container>
+        <Outlet />
       </ThemeProvider>
     </>
   ),
@@ -29,25 +26,54 @@ const rootRoute = new RootRoute({
 const moviesRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/movies",
-  component: () => <PopularMovies />,
+  component: () => (
+    <Container>
+      <Box margin="10px" position="relative">
+        <PopularMovies />
+      </Box>
+    </Container>
+  ),
+})
+const movieDetailsRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/movies/$movieId",
+  component: () => <MovieDetails />,
 })
 
 const tvRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/tv",
-  component: () => <PopularTvSeries />,
+  component: () => (
+    <Container>
+      <Box margin="10px" position="relative">
+        <PopularTvSeries />{" "}
+      </Box>
+    </Container>
+  ),
 })
 
 const favRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/favorites",
-  component: () => <FavoritesList />,
+  component: () => (
+    <Container>
+      <Box margin="10px" position="relative">
+        <FavoritesList />{" "}
+      </Box>
+    </Container>
+  ),
 })
 
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: () => <PopularMovies />,
+  component: () => (
+    <Container>
+      <Box margin="10px" position="relative">
+        <PopularMovies />
+      </Box>
+    </Container>
+  ),
 })
 
 const signInRoute = new Route({
@@ -55,17 +81,29 @@ const signInRoute = new Route({
   path: "/auth/sign-in",
 
   validateSearch: signInSearchSchema,
-  component: () => <SignIn />,
+  component: () => (
+    <Container>
+      <Box margin="10px" position="relative">
+        <SignIn />,
+      </Box>
+    </Container>
+  ),
 })
 const signUpRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/auth/sign-up",
-  component: () => <SignUp />,
+  component: () => (
+    <Container>
+      <Box margin="10px" position="relative">
+        <SignUp />{" "}
+      </Box>
+    </Container>
+  ),
 })
 
 export const routeTree = rootRoute.addChildren([
   indexRoute,
-  moviesRoute,
+  moviesRoute.addChildren([movieDetailsRoute]),
   tvRoute,
   favRoute,
   signInRoute,

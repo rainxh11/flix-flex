@@ -4,6 +4,7 @@ import { CircularProgress, Typography } from "@mui/material"
 import { ContentSearch } from "../Shared/ContentSearch"
 import { useEffect, useMemo, useState } from "react"
 import { MovieList } from "./MovieList"
+import { SpinnerWrapper } from "../Shared/Spinner"
 
 function PopularMoviesList(props: {
   searchQuery: string
@@ -30,10 +31,10 @@ function PopularMoviesList(props: {
     props.onMaxPagesChanges(maxPages)
   }, [maxPages])
 
-  return isLoading ? (
-    <CircularProgress variant="indeterminate" />
-  ) : (
-    <MovieList movies={movies?.results} />
+  return (
+    <SpinnerWrapper show={isLoading}>
+      <MovieList movies={movies?.results} />
+    </SpinnerWrapper>
   )
 }
 

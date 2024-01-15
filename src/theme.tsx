@@ -1,8 +1,11 @@
-import { createTheme } from "@mui/material/styles"
+import { createTheme, responsiveFontSizes } from "@mui/material/styles"
 import { red, blue, green } from "@mui/material/colors"
 
 // A custom theme for this app
 const theme = createTheme({
+  typography: {
+    fontFamily: ["'Source Sans 3'", "Arial", "sans-serif"].join(","),
+  },
   palette: {
     primary: {
       main: blue[700],
@@ -19,4 +22,4 @@ const theme = createTheme({
   },
 })
 
-export default theme
+export default responsiveFontSizes(theme)

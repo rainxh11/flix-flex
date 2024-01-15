@@ -14,8 +14,10 @@ import { useMemo } from "react"
 import { useFavStore } from "../../contexts/favorites"
 import { FavButton } from "../Shared/FavButton"
 import { useComputed } from "../../hooks"
+import { Link, useRouter } from "@tanstack/react-router"
 
 export function MovieCard({ value }: { value: Movie }) {
+  const router = useRouter()
   const initialComponentKey = Math.random()
   const { addOrRemoveFromFavorites, isInFavorites, lastChangeId } =
     useFavStore<Movie>()
@@ -44,14 +46,17 @@ export function MovieCard({ value }: { value: Movie }) {
         flexDirection: "column",
         alignItems: "start",
       }}>
-      <CardActionArea sx={{ height: "max-content" }}>
-        <CardMedia
-          component="img"
-          width="100"
-          image={getImageUrl(value.poster_path, 200)}
-          alt={value.title}
-        />
-      </CardActionArea>
+      <Link to="/movies/$movieId" params={{ movieId: value.id.toString() }}>
+        <CardActionArea sx={{ height: "max-content" }}>
+          <CardMedia
+            component="img"
+            width="100"
+            image={getImageUrl(value.poster_path, 200)}
+            alt={value.title}
+          />
+        </CardActionArea>
+      </Link>
+
       <Stack
         width="-webkit-fill-available"
         display="flex"
@@ -68,15 +73,22 @@ export function MovieCard({ value }: { value: Movie }) {
           alignContent="center"
           justifyContent="space-between"
           alignSelf="start">
-          <Typography
-            width="-webkit-fill-available"
-            flexGrow={1}
-            fontWeight="bold"
-            gutterBottom
-            variant="body1"
-            component="div">
-            {value.title}
-          </Typography>
+          <Link
+            style={{ textDecoration: "none" }}
+            to="/movies/$movieId"
+            params={{ movieId: value.id.toString() }}>
+            <Typography
+              sx={{ color: "CaptionText", "&:hover": { color: "grey" } }}
+              width="-webkit-fill-available"
+              flexGrow={1}
+              fontWeight="bold"
+              gutterBottom
+              variant="body1"
+              component="div">
+              {value.title}
+            </Typography>
+          </Link>
+
           <FavButton
             size="large"
             value={isFavorite}

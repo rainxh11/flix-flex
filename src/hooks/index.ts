@@ -160,3 +160,16 @@ export const useIntervalComputed = <T>(
 
   return cachedState
 }
+
+export const useRotatedList = <T>(items: T[], rotationDelayMs: number) => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const currentItem = useComputed(() => items[currentIndex], [currentIndex])
+  useInterval(() => {
+    const index = currentIndex == items.length - 1 ? 0 : currentIndex + 1
+    setCurrentIndex(index)
+  }, rotationDelayMs)
+  useEffect(() => {
+    setCurrentIndex(0)
+  }, [items])
+  return currentItem
+}

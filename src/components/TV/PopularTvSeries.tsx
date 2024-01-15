@@ -1,9 +1,10 @@
 import { useTmdb } from "../../hooks/tmdb"
 import { useQuery } from "@tanstack/react-query"
-import { CircularProgress, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import { ContentSearch } from "../Shared/ContentSearch"
 import { useEffect, useMemo, useState } from "react"
 import { TvSeriesList } from "./TvSeriesList"
+import { SpinnerWrapper } from "../Shared/Spinner"
 
 function PopularTvSeriesList(props: {
   searchQuery: string
@@ -30,10 +31,10 @@ function PopularTvSeriesList(props: {
     props.onMaxPagesChanges(maxPages)
   }, [maxPages])
 
-  return isLoading ? (
-    <CircularProgress variant="indeterminate" />
-  ) : (
-    <TvSeriesList series={series?.results} />
+  return (
+    <SpinnerWrapper show={isLoading}>
+      <TvSeriesList series={series?.results} />
+    </SpinnerWrapper>
   )
 }
 

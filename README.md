@@ -42,4 +42,4 @@ yarn install
 yarn run dev
 ```
 
-Navigate to dev server url: (http://localhost:8080)[http://localhost:8080]
+Navigate to dev server url: [http://localhost:8080](http://localhost:8080)

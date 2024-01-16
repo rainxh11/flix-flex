@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// @ts-nocheck
-import { useMovieDetails } from "./useMovieDetails"
+import { useSeriesDetails } from "./useSeriesDetails"
 import { useParams, useRouter } from "@tanstack/react-router"
 import { parse, format } from "date-fns"
 import humanizeDuration from "humanize-duration"
+import { sumBy, chain } from "lodash"
 
 import {
   CardMedia,
@@ -34,9 +33,9 @@ const formatCurrency = new FormatMoney({
 
 const DotIcon = () => <Circle sx={{ fontSize: 8 }} />
 
-export function MovieDetails() {
+export function TvSeriesDetails() {
   const router = useRouter()
-  const { movieId } = useParams({ strict: false }) as { movieId: string }
+  const { seriesId } = useParams({ strict: false }) as { seriesId: string }
   const { getImageUrl } = useTmdb()
   const {
     details,
@@ -48,7 +47,10 @@ export function MovieDetails() {
     similar,
     isLoading,
     errors,
-  } = useMovieDetails({ movieId: parseInt(movieId) })
+    lastSeasonDetails,
+    lastSeasonImages,
+    seasonsDetails,
+  } = useSeriesDetails({ seriesId: parseInt(seriesId) })
   const backdrop = useRotatedList(images.data?.backdrops ?? [], 5000)
   const styles = {
     backgroundOverlayColor: {
@@ -59,7 +61,7 @@ export function MovieDetails() {
   const releaseDate = useComputed(() => {
     try {
       const parsed = parse(
-        details.data!.release_date!,
+        details.data!.first_air_date!,
         "yyyy-MM-dd",
         new Date(),
       )
@@ -68,7 +70,28 @@ export function MovieDetails() {
     } catch {
       return { date: "N/A", year: "N/A" }
     }
-  }, [details.data?.release_date])
+  }, [details.data?.first_air_date])
+  const averageEpisodeRuntime = useComputed(() => {
+    if (details.data)
+      return (
+        sumBy(details.data.episode_run_time, x => x) /
+        details.data.episode_run_time.length
+      )
+    else return 0
+  }, [details.data])
+
+  // const castWithEpsList = useComputed(() => {
+  //   if (isLoading) return []
+  //   const crew = chain(seasonsDetails)
+  //     .flatMap(x => x.data?.episodes)
+  //     .flatMap(x => x?.crew)
+  //     .map(x => x?.credit_id)
+  //     .value()
+  //   return credits.data?.cast.map(cast => ({
+  //     ...cast,
+  //     episodeCount: crew.filter(x => x === cast.credit_id).length,
+  //   }))
+  // }, [isLoading, seasonsDetails, credits.data])
 
   return (
     <>
@@ -124,7 +147,7 @@ export function MovieDetails() {
                     alignItems="center">
                     <Box flexShrink={1}>
                       <Typography variant="h4" fontWeight="900">
-                        {details.data?.title + " "}
+                        {details.data?.name + " "}
                         <span
                           style={{
                             color: colors.grey[400],
@@ -157,7 +180,7 @@ export function MovieDetails() {
                     flexDirection="row"
                     alignItems="center">
                     <Typography fontWeight="light" variant="h6">
-                      {releaseDate.date}{" "}
+                      {releaseDate.date}
                     </Typography>
                     <DotIcon />
                     <Typography>
@@ -168,14 +191,24 @@ export function MovieDetails() {
                     </Typography>
                     <DotIcon />
                     <Typography>
-                      {details.data?.genres.map(x => x.name).join(", ")}
+                      {details.data?.genres?.map(x => x.name).join(", ")}
                     </Typography>
                     <DotIcon />
                     <Typography>
-                      {humanizeDuration(
-                        (details.data?.runtime ?? 0) * 60 * 1000,
-                        { units: ["h", "m"] },
-                      )}
+                      {lastSeasonDetails.data?.season_number ?? 1}
+                      {" Seasons"}
+                    </Typography>
+                    <DotIcon />
+                    <Typography>
+                      {chain(seasonsDetails)
+                        .flatMap(x => x.data?.episodes)
+                        .value().length ?? 0}
+                      {" Episodes"}
+                    </Typography>
+                    <DotIcon />
+                    <Typography>Average Episode Runtime:</Typography>
+                    <Typography>
+                      {humanizeDuration(averageEpisodeRuntime * 60 * 1000)}
                     </Typography>
                   </Stack>
 
@@ -244,19 +277,29 @@ export function MovieDetails() {
 
               <Box>
                 <Typography variant="subtitle1" fontWeight="600">
-                  Budget
+                  Network
                 </Typography>
-                <Typography variant="subtitle2">
-                  {formatCurrency.from(details.data?.budget ?? 0)?.toString()}
-                </Typography>
+                <Stack
+                  flexDirection="column"
+                  flex={1}
+                  display="flex"
+                  rowGap="10px">
+                  {details.data?.networks?.map(network => (
+                    <img
+                      loading="lazy"
+                      width="150px"
+                      src={getImageUrl(network.logo_path, 200)}
+                    />
+                  ))}
+                </Stack>
               </Box>
 
               <Box>
                 <Typography variant="subtitle1" fontWeight="600">
-                  Revenue
+                  Type
                 </Typography>
                 <Typography variant="subtitle2">
-                  {formatCurrency.from(details.data?.revenue ?? 0)?.toString()}
+                  {details.data?.type}
                 </Typography>
               </Box>
 

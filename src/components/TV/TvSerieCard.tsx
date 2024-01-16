@@ -14,6 +14,7 @@ import { useMemo } from "react"
 import { FavButton } from "../Shared/FavButton"
 import { useFavStore } from "../../contexts/favorites"
 import { useComputed } from "../../hooks"
+import { Link } from "@tanstack/react-router"
 
 export function TvSerieCard({ value }: { value: TV }) {
   const initialComponentKey = Math.random()
@@ -43,14 +44,16 @@ export function TvSerieCard({ value }: { value: TV }) {
         flexDirection: "column",
         alignItems: "start",
       }}>
-      <CardActionArea sx={{ height: "max-content" }}>
-        <CardMedia
-          component="img"
-          width="100"
-          image={getImageUrl(value.poster_path, 200)}
-          alt={value.name}
-        />
-      </CardActionArea>
+      <Link to="/series/$seriesId" params={{ seriesId: value.id.toString() }}>
+        <CardActionArea sx={{ height: "max-content" }}>
+          <CardMedia
+            component="img"
+            width="100"
+            image={getImageUrl(value.poster_path, 200)}
+            alt={value.name}
+          />
+        </CardActionArea>
+      </Link>
       <Stack
         width="-webkit-fill-available"
         display="flex"
@@ -67,15 +70,22 @@ export function TvSerieCard({ value }: { value: TV }) {
           alignContent="center"
           justifyContent="space-between"
           alignSelf="start">
-          <Typography
-            width="-webkit-fill-available"
-            flexGrow={1}
-            fontWeight="bold"
-            gutterBottom
-            variant="body1"
-            component="div">
-            {value.name}
-          </Typography>
+          <Link
+            style={{ textDecoration: "none" }}
+            to="/series/$seriesId"
+            params={{ seriesId: value.id.toString() }}>
+            <Typography
+              sx={{ color: "CaptionText", "&:hover": { color: "grey" } }}
+              width="-webkit-fill-available"
+              flexGrow={1}
+              fontWeight="bold"
+              gutterBottom
+              variant="body1"
+              component="div">
+              {value.name}
+            </Typography>
+          </Link>
+
           <FavButton
             size="large"
             value={isFavorite}

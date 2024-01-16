@@ -2,11 +2,15 @@ import { Cast } from "tmdb-ts-benlei-fork"
 import { Card, CardMedia, CardContent, Typography } from "@mui/material"
 import { useTmdb } from "../../hooks/tmdb"
 
-export function CastCard({ cast }: { cast: Cast }) {
+export function TvCastCard({
+  cast,
+}: {
+  cast: Cast & { episodeCount: number }
+}) {
   const { getImageUrl } = useTmdb()
 
   return (
-    <Card sx={{ minWidth: "150px", height: "370px" }}>
+    <Card sx={{ minWidth: "150px", height: "420px" }}>
       <CardMedia
         component="img"
         loading="lazy"
@@ -18,6 +22,9 @@ export function CastCard({ cast }: { cast: Cast }) {
         </Typography>
         <Typography fontWeight="200" variant="subtitle1">
           {cast.character}
+        </Typography>
+        <Typography fontWeight="200" variant="subtitle1">
+          {cast.episodeCount} {" Episodes"}
         </Typography>
       </CardContent>
     </Card>

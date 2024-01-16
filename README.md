@@ -31,3 +31,15 @@ Creation of a web application: Movie app FlixFlex.
 6. Vercel for hosting a live demo
 
 ## [Live Demo URL](https://flix-flex-ahmed-chakhoum.vercel.app)
+
+## Running Locally:
+
+```shell
+yarn install
+```
+
+```shell
+yarn run dev
+```
+
+Navigate to dev server url: (http://localhost:8080)[http://localhost:8080]

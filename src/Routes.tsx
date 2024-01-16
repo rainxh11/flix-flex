@@ -10,6 +10,7 @@ import { PopularTvSeries } from "./components/TV/PopularTvSeries"
 import { signInSearchSchema } from "./types/route-validation"
 import TopBar from "./components/App/TopBar"
 import { FavoritesList } from "./components/Favorites/FavoritesList"
+import { TvSeriesDetails } from "./components/TV/TvSeriesDetails"
 
 const rootRoute = new RootRoute({
   component: () => (
@@ -38,6 +39,12 @@ const movieDetailsRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/movies/$movieId",
   component: () => <MovieDetails />,
+})
+
+const tvSeriesDetailsRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/series/$seriesId",
+  component: () => <TvSeriesDetails />,
 })
 
 const tvRoute = new Route({
@@ -104,7 +111,7 @@ const signUpRoute = new Route({
 export const routeTree = rootRoute.addChildren([
   indexRoute,
   moviesRoute.addChildren([movieDetailsRoute]),
-  tvRoute,
+  tvRoute.addChildren([tvSeriesDetailsRoute]),
   favRoute,
   signInRoute,
   signUpRoute,
